@@ -28,7 +28,7 @@ async function setAudioContext(audioCtx){
     const source = audioCtx.createMediaStreamSource(input)
     source
     .connect(analyser)
-    // working on feedback loop - use a microphone
+    // USE A MICROPHONE TO AVOID A FEEDBACK LOOP
 }
 
 let stereoImager = function (audioCtx, canvasCtx){

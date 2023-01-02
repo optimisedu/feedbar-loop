@@ -1,4 +1,3 @@
-// reduced sample rate uses far less computing power. 48khz max.
 const audioCtx = new AudioContext({
     sampleRate: 24000,
 })
@@ -32,7 +31,7 @@ async function setAudioContext(audioCtx){
     // working on feedback loop - use a microphone
 }
 
-let serioImager = function (audioCtx, canvasCtx){
+let stereoImager = function (audioCtx, canvasCtx){
     requestAnimationFrame(stereoImager);
     const buffer = analyser.frequencyBinCount;
     const stream = new Uint8Array(buffer);
@@ -40,15 +39,14 @@ let serioImager = function (audioCtx, canvasCtx){
 
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height)
 
-    // Visualize the audio data using a bar graph
-    const barWidth = canvas.width / buffer;
+    // Visualize the audio data using a circle
+    const radius = canvas.width / 2;
+    const angle = 2 * Math.PI / buffer;
     for (let i = 0; i < buffer; i++) {
-        const y = stream[i] / 255 * canvas.height / 2;
-        const x = barWidth * i;
+        const y = stream[i] / 255 * radius;
+        const x = radius + y * Math.cos(angle * i);
+        const y = radius + y * Math.sin(angle * i);
 
-        // Create a linear gradient
-        const gradient = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
-        // Add two color stops
         gradient.addColorStop(0, 'blue');
         gradient.addColorStop(1, 'red');
         // Set the fill style to the gradient
